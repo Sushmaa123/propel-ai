@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 function App() {
   const [incidents, setIncidents] = useState([]);
   const [tickets, setTickets] = useState([]);
@@ -11,11 +13,11 @@ function App() {
   const loadData = async () => {
     try {
       const incidentRes = await axios.get(
-        "http://127.0.0.1:8000/api/incidents/"
+        `${API_URL}/api/incidents/`
       );
 
       const ticketRes = await axios.get(
-        "http://127.0.0.1:8000/api/tickets/"
+        `${API_URL}/api/tickets/`
       );
 
       setIncidents(incidentRes.data);
@@ -31,7 +33,7 @@ function App() {
   const injectFault = async (faultType) => {
     try {
       await axios.post(
-        "http://127.0.0.1:8000/api/inject-fault/",
+        `${API_URL}/api/inject-fault/`,
         {
           fault_type: faultType,
         }
@@ -51,7 +53,7 @@ function App() {
   const updateTicket = async (ticketNumber, status) => {
     try {
       await axios.post(
-        `http://127.0.0.1:8000/api/tickets/${ticketNumber}/status/`,
+        `${API_URL}/api/tickets/${ticketNumber}/status/`,
         {
           status: status,
         }
